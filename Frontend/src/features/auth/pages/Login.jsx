@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import "../auth.form.scss";
-import { Link } from "react-router";
+import { useNavigate, Link } from "react-router";
+import { useAuth } from "../hooks/useAuth";
 
 const Login = () => {
+  const { loading, handleLogin } = useAuth();
+
+  const [email, setEmail] = useState("");
+
+  const [password, setPassword] = useState("");
+
   // e in this function means event, which is an object that represents the event that occurred. in this case,
   // the event if the form submission. e.preventDefault() is a method that prevents the default behaviour of the
   // form submission, which is to reload the page. we want to prevent that because we want to handle the form submission ourseleves,
   const handleSubmit = (e) => {
     e.preventDefault();
+    handleLogin({ email, password });
   };
 
   return (
@@ -19,6 +27,9 @@ const Login = () => {
           <div className="input-group">
             <label htmlFor="email">Email</label>
             <input
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
               type="email"
               id="email"
               name="email"
@@ -28,6 +39,9 @@ const Login = () => {
           <div className="input-group">
             <label htmlFor="password">Password</label>
             <input
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               type="password"
               id="password"
               name="password"
