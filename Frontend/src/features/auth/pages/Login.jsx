@@ -5,6 +5,7 @@ import { useAuth } from "../hooks/useAuth";
 
 const Login = () => {
   const { loading, handleLogin } = useAuth();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
 
@@ -13,10 +14,19 @@ const Login = () => {
   // e in this function means event, which is an object that represents the event that occurred. in this case,
   // the event if the form submission. e.preventDefault() is a method that prevents the default behaviour of the
   // form submission, which is to reload the page. we want to prevent that because we want to handle the form submission ourseleves,
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    handleLogin({ email, password });
+    await handleLogin({ email, password });
+    navigate("/");
   };
+
+  if (loading) {
+    return (
+      <main>
+        <h1>Loading.............</h1>
+      </main>
+    );
+  }
 
   return (
     <main>
